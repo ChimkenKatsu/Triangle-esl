@@ -53,8 +53,8 @@ export default function Navbar({ page, go, onDemo }) {
           </div>
         </div>
 
-        {/* ── Desktop nav links ── */}
-        <div className="desktop-only" style={{ display:"flex", alignItems:"center", gap:2 }}>
+        {/* ── Desktop nav links — only visible on screens 768px+ ── */}
+        <div className="nav-desktop" style={{ display:"flex", alignItems:"center", gap:2 }}>
           {NAV_LINKS.map(n => (
             <NavBtn key={n.id} active={page === n.id} onClick={() => navigate(n.id)}>
               {n.label}
@@ -65,8 +65,8 @@ export default function Navbar({ page, go, onDemo }) {
           </GoldBtn>
         </div>
 
-        {/* ── Mobile: Free Demo button + hamburger ── */}
-        <div className="mobile-only" style={{ display:"flex", alignItems:"center", gap:8 }}>
+        {/* ── Mobile: Free Demo + hamburger — only visible below 768px ── */}
+        <div className="nav-mobile" style={{ display:"flex", alignItems:"center", gap:8 }}>
           <button
             onClick={onDemo}
             style={{
@@ -106,7 +106,7 @@ export default function Navbar({ page, go, onDemo }) {
       {/* ── Mobile dropdown menu ── */}
       {menuOpen && (
         <div
-          className="mobile-only"
+          className="nav-mobile"
           style={{
             background:    C.navy,
             borderTop:     `2px solid rgba(245,166,35,.2)`,
