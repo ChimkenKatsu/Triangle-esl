@@ -53,7 +53,7 @@ export default function Navbar({ page, go, onDemo }) {
           </div>
         </div>
 
-        {/* ── Desktop nav links (hidden on mobile) ── */}
+        {/* ── Desktop nav links ── */}
         <div className="desktop-only" style={{ display:"flex", alignItems:"center", gap:2 }}>
           {NAV_LINKS.map(n => (
             <NavBtn key={n.id} active={page === n.id} onClick={() => navigate(n.id)}>
@@ -65,20 +65,37 @@ export default function Navbar({ page, go, onDemo }) {
           </GoldBtn>
         </div>
 
-        {/* ── Mobile: hamburger only (no duplicate Free Demo button here) ── */}
+        {/* ── Mobile: Free Demo button + hamburger ── */}
         <div className="mobile-only" style={{ display:"flex", alignItems:"center", gap:8 }}>
+          <button
+            onClick={onDemo}
+            style={{
+              background:   C.gold,
+              border:       "none",
+              borderRadius: 9,
+              padding:      "8px 12px",
+              fontFamily:   "'Nunito',sans-serif",
+              fontSize:     12,
+              fontWeight:   800,
+              color:        C.navy,
+              cursor:       "pointer",
+              whiteSpace:   "nowrap",
+            }}
+          >
+            📋 Free Demo
+          </button>
           <button
             onClick={() => setMenuOpen(o => !o)}
             style={{
-              background: "rgba(255,255,255,.08)",
-              border: `2px solid rgba(245,166,35,.4)`,
+              background:   "rgba(255,255,255,.08)",
+              border:       `2px solid rgba(245,166,35,.4)`,
               borderRadius: 9,
-              width: 40, height: 40,
-              cursor: "pointer",
-              color: C.gold,
-              fontSize: 18,
-              display: "flex", alignItems: "center", justifyContent: "center",
-              flexShrink: 0,
+              width:        40, height: 40,
+              cursor:       "pointer",
+              color:        C.gold,
+              fontSize:     18,
+              display:      "flex", alignItems: "center", justifyContent: "center",
+              flexShrink:   0,
             }}
           >
             {menuOpen ? "✕" : "☰"}
@@ -91,12 +108,12 @@ export default function Navbar({ page, go, onDemo }) {
         <div
           className="mobile-only"
           style={{
-            background: C.navy,
-            borderTop: `2px solid rgba(245,166,35,.2)`,
-            padding: "12px 16px 18px",
-            display: "flex",
+            background:    C.navy,
+            borderTop:     `2px solid rgba(245,166,35,.2)`,
+            padding:       "12px 16px 18px",
+            display:       "flex",
             flexDirection: "column",
-            gap: 4,
+            gap:           4,
           }}
         >
           {NAV_LINKS.map(n => (
@@ -119,25 +136,6 @@ export default function Navbar({ page, go, onDemo }) {
               {n.label}
             </button>
           ))}
-          {/* Single Free Demo CTA in mobile menu */}
-          <button
-            onClick={() => { onDemo(); setMenuOpen(false); }}
-            style={{
-              background: C.gold,
-              border: "none",
-              borderRadius: 9,
-              padding: "13px 14px",
-              textAlign: "left",
-              fontFamily: "'Nunito',sans-serif",
-              fontSize: 15,
-              fontWeight: 800,
-              color: C.navy,
-              cursor: "pointer",
-              marginTop: 6,
-            }}
-          >
-            📋 Book a Free 10-Min Demo
-          </button>
         </div>
       )}
     </nav>

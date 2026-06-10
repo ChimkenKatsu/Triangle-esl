@@ -20,13 +20,13 @@ export default function TeacherCard({ t, onBook }) {
         transition:   "all .22s",
       }}
     >
-      <div style={{ display:"flex", flexWrap:"wrap" }}>
+      {/* ── Mobile layout: stacked ── */}
+      <div style={{ display:"flex", flexDirection:"column" }} className="teacher-card-inner">
 
         {/* ── Sidebar ── */}
         <div style={{
           background: `linear-gradient(160deg,${C.navy} 0%,${C.navyMid} 100%)`,
-          padding:    "36px 26px",
-          flex:       "0 0 230px",
+          padding:    "28px 20px",
           display:    "flex", flexDirection:"column", alignItems:"center", textAlign:"center", gap:14,
         }}>
           <div style={{ position:"relative" }}>
@@ -34,12 +34,11 @@ export default function TeacherCard({ t, onBook }) {
               src={IMG[t.img]}
               alt={t.name}
               style={{
-                width:116, height:116, borderRadius:"50%", objectFit:"cover",
+                width:110, height:110, borderRadius:"50%", objectFit:"cover",
                 border:     `4px solid ${t.accent}`,
                 boxShadow:  `0 0 0 4px rgba(${t.accentRgb},.2), 0 10px 28px rgba(0,0,0,.35)`,
               }}
             />
-            {/* Online indicator */}
             <div style={{ position:"absolute", bottom:6, right:2, width:20, height:20, borderRadius:"50%", background:"#22C55E", border:"3px solid #fff" }} />
           </div>
 
@@ -67,7 +66,7 @@ export default function TeacherCard({ t, onBook }) {
         </div>
 
         {/* ── Body ── */}
-        <div style={{ flex:1, padding:"28px 26px", minWidth:260 }}>
+        <div style={{ flex:1, padding:"24px 20px" }}>
           {[
             {
               label: "About",

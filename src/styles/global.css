@@ -171,3 +171,13 @@ input[type="date"] {
   -webkit-appearance: none;
   appearance: none;
 }
+
+/* ── Teacher card: stack on mobile, side-by-side on desktop ── */
+.teacher-card-inner {
+  flex-direction: column !important;
+}
+@media (min-width: 640px) {
+  .teacher-card-inner {
+    flex-direction: row !important;
+  }
+}
