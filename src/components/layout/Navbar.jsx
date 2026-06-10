@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import IMG from "../../data/images";
 import C from "../../styles/theme";
 import { NavBtn, GoldBtn } from "../ui";
@@ -12,14 +12,21 @@ const NAV_LINKS = [
 
 export default function Navbar({ page, go, onDemo }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+      if (window.innerWidth >= 768) setMenuOpen(false);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const navigate = (id) => {
     go(id);
     setMenuOpen(false);
   };
-
-  // Detect mobile via window width
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   return (
     <nav style={{
@@ -30,13 +37,14 @@ export default function Navbar({ page, go, onDemo }) {
       borderBottom: `3px solid ${C.gold}`,
       boxShadow:    "0 4px 28px rgba(14,24,41,.5)",
     }}>
+      {/* ── Top bar ── */}
       <div style={{
         maxWidth: 1100, margin: "0 auto",
         padding:  "0 16px",
-        display:  "flex", alignItems: "center", height: 62, gap: 2,
+        display:  "flex", alignItems: "center", height: 62, gap: 8,
       }}>
 
-        {/* ── Logo ── */}
+        {/* Logo */}
         <div
           onClick={() => navigate("home")}
           style={{ display:"flex", alignItems:"center", gap:8, cursor:"pointer", marginRight:"auto", flexShrink:0 }}
@@ -56,85 +64,66 @@ export default function Navbar({ page, go, onDemo }) {
           </div>
         </div>
 
-        {/* ── Desktop nav links (768px+) ── */}
-        <div style={{
-          display: "flex", alignItems: "center", gap: 2,
-          // Hide on mobile using media query via className
-        }} className="nav-desktop">
-          {NAV_LINKS.map(n => (
-            <NavBtn key={n.id} active={page === n.id} onClick={() => navigate(n.id)}>
-              {n.label}
-            </NavBtn>
-          ))}
-          <GoldBtn onClick={onDemo} style={{ marginLeft: 10, whiteSpace: "nowrap" }}>
-            📋 Free Demo
-          </GoldBtn>
-        </div>
+        {/* Desktop links — only rendered when not mobile */}
+        {!isMobile && (
+          <div style={{ display:"flex", alignItems:"center", gap:2 }}>
+            {NAV_LINKS.map(n => (
+              <NavBtn key={n.id} active={page === n.id} onClick={() => navigate(n.id)}>
+                {n.label}
+              </NavBtn>
+            ))}
+            <GoldBtn onClick={onDemo} style={{ marginLeft:10, whiteSpace:"nowrap" }}>
+              📋 Free Demo
+            </GoldBtn>
+          </div>
+        )}
 
-        {/* ── Mobile controls (below 768px) ── */}
-        <div className="nav-mobile" style={{ alignItems:"center", gap:8 }}>
-          <button
-            onClick={onDemo}
-            style={{
-              background:   C.gold,
-              border:       "none",
-              borderRadius: 9,
-              padding:      "8px 12px",
-              fontFamily:   "'Nunito',sans-serif",
-              fontSize:     12,
-              fontWeight:   800,
-              color:        C.navy,
-              cursor:       "pointer",
-              whiteSpace:   "nowrap",
-            }}
-          >
-            📋 Free Demo
-          </button>
+        {/* Mobile: hamburger button */}
+        {isMobile && (
           <button
             onClick={() => setMenuOpen(o => !o)}
             style={{
-              background:   "rgba(255,255,255,.08)",
-              border:       `2px solid rgba(245,166,35,.4)`,
+              background:   menuOpen ? "rgba(245,166,35,.2)" : "rgba(255,255,255,.08)",
+              border:       `2px solid rgba(245,166,35,.5)`,
               borderRadius: 9,
-              width:        40, height: 40,
+              width:        44, height: 44,
               cursor:       "pointer",
               color:        C.gold,
-              fontSize:     18,
+              fontSize:     20,
               display:      "flex", alignItems: "center", justifyContent: "center",
               flexShrink:   0,
+              transition:   "background .15s",
             }}
           >
             {menuOpen ? "✕" : "☰"}
           </button>
-        </div>
+        )}
       </div>
 
-      {/* ── Mobile dropdown menu ── */}
-      {menuOpen && (
-        <div
-          className="nav-mobile"
-          style={{
-            borderTop:     `2px solid rgba(245,166,35,.2)`,
-            padding:       "8px 16px 16px",
-            flexDirection: "column",
-            gap:           4,
-            background:    C.navy,
-          }}
-        >
+      {/* ── Mobile dropdown — only rendered when open ── */}
+      {isMobile && menuOpen && (
+        <div style={{
+          background:    C.navy,
+          borderTop:     `2px solid rgba(245,166,35,.25)`,
+          padding:       "10px 16px 20px",
+          display:       "flex",
+          flexDirection: "column",
+          gap:           6,
+        }}>
           {NAV_LINKS.map(n => (
             <button
               key={n.id}
               onClick={() => navigate(n.id)}
               style={{
-                background:   page === n.id ? "rgba(245,166,35,.16)" : "none",
-                border:       "none",
-                borderRadius: 9,
-                padding:      "13px 14px",
+                background:   page === n.id ? "rgba(245,166,35,.18)" : "rgba(255,255,255,.04)",
+                border:       page === n.id ? `1.5px solid rgba(245,166,35,.4)` : "1.5px solid rgba(255,255,255,.06)",
+                borderRadius: 10,
+                padding:      "14px 16px",
                 textAlign:    "left",
                 fontFamily:   "'Nunito',sans-serif",
-                fontSize:     15,
+                fontSize:     16,
                 fontWeight:   700,
-                color:        page === n.id ? C.gold : "rgba(255,255,255,.85)",
+                color:        page === n.id ? C.gold : "rgba(255,255,255,.9)",
                 cursor:       "pointer",
                 width:        "100%",
               }}
@@ -142,6 +131,27 @@ export default function Navbar({ page, go, onDemo }) {
               {n.label}
             </button>
           ))}
+
+          {/* Free Demo CTA */}
+          <button
+            onClick={() => { onDemo(); setMenuOpen(false); }}
+            style={{
+              background:   C.gold,
+              border:       "none",
+              borderRadius: 10,
+              padding:      "14px 16px",
+              textAlign:    "center",
+              fontFamily:   "'Nunito',sans-serif",
+              fontSize:     16,
+              fontWeight:   800,
+              color:        C.navy,
+              cursor:       "pointer",
+              marginTop:    4,
+              width:        "100%",
+            }}
+          >
+            📋 Book a Free 10-Min Demo
+          </button>
         </div>
       )}
     </nav>
