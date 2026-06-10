@@ -18,6 +18,9 @@ export default function Navbar({ page, go, onDemo }) {
     setMenuOpen(false);
   };
 
+  // Detect mobile via window width
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
   return (
     <nav style={{
       background:   C.navy,
@@ -53,8 +56,11 @@ export default function Navbar({ page, go, onDemo }) {
           </div>
         </div>
 
-        {/* ── Desktop nav links — only visible on screens 768px+ ── */}
-        <div className="nav-desktop" style={{ display:"flex", alignItems:"center", gap:2 }}>
+        {/* ── Desktop nav links (768px+) ── */}
+        <div style={{
+          display: "flex", alignItems: "center", gap: 2,
+          // Hide on mobile using media query via className
+        }} className="nav-desktop">
           {NAV_LINKS.map(n => (
             <NavBtn key={n.id} active={page === n.id} onClick={() => navigate(n.id)}>
               {n.label}
@@ -65,8 +71,8 @@ export default function Navbar({ page, go, onDemo }) {
           </GoldBtn>
         </div>
 
-        {/* ── Mobile: Free Demo + hamburger — only visible below 768px ── */}
-        <div className="nav-mobile" style={{ display:"flex", alignItems:"center", gap:8 }}>
+        {/* ── Mobile controls (below 768px) ── */}
+        <div className="nav-mobile" style={{ alignItems:"center", gap:8 }}>
           <button
             onClick={onDemo}
             style={{
@@ -108,12 +114,11 @@ export default function Navbar({ page, go, onDemo }) {
         <div
           className="nav-mobile"
           style={{
-            background:    C.navy,
             borderTop:     `2px solid rgba(245,166,35,.2)`,
-            padding:       "12px 16px 18px",
-            display:       "flex",
+            padding:       "8px 16px 16px",
             flexDirection: "column",
             gap:           4,
+            background:    C.navy,
           }}
         >
           {NAV_LINKS.map(n => (
@@ -124,13 +129,14 @@ export default function Navbar({ page, go, onDemo }) {
                 background:   page === n.id ? "rgba(245,166,35,.16)" : "none",
                 border:       "none",
                 borderRadius: 9,
-                padding:      "12px 14px",
+                padding:      "13px 14px",
                 textAlign:    "left",
                 fontFamily:   "'Nunito',sans-serif",
                 fontSize:     15,
                 fontWeight:   700,
-                color:        page === n.id ? C.gold : "rgba(255,255,255,.8)",
+                color:        page === n.id ? C.gold : "rgba(255,255,255,.85)",
                 cursor:       "pointer",
+                width:        "100%",
               }}
             >
               {n.label}

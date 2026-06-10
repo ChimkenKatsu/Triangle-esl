@@ -12,18 +12,18 @@ body {
   max-width: 100vw;
 }
 
-/* ── Navbar responsive helpers ───────────────────────────── */
-/* Mobile: show mobile nav, hide desktop nav */
-.nav-mobile  { display: flex;  }
-.nav-desktop { display: none;  }
+/* ── Navbar: mobile-first ────────────────────────────────── */
+/* On mobile: show mobile nav, hide desktop */
+.nav-mobile  { display: flex !important; }
+.nav-desktop { display: none !important; }
 
-/* Desktop 768px+: show desktop nav, hide mobile nav */
+/* On desktop 768px+: flip them */
 @media (min-width: 768px) {
   .nav-mobile  { display: none !important; }
   .nav-desktop { display: flex !important; }
 }
 
-/* Keep old classes working for other components */
+/* ── Legacy helpers used by other components ─────────────── */
 .mobile-only  { display: block; }
 .desktop-only { display: none;  }
 @media (min-width: 768px) {
@@ -32,13 +32,9 @@ body {
 }
 
 /* ── Teacher card: stack on mobile, side-by-side on desktop ── */
-.teacher-card-inner {
-  flex-direction: column;
-}
+.teacher-card-inner { flex-direction: column; }
 @media (min-width: 640px) {
-  .teacher-card-inner {
-    flex-direction: row !important;
-  }
+  .teacher-card-inner { flex-direction: row !important; }
 }
 
 /* ── Mobile responsive overrides ────────────────────────── */
@@ -46,11 +42,7 @@ body {
   .two-col-grid { grid-template-columns: 1fr !important; }
   .card-mobile  { padding: 16px 12px !important; }
   .hero-title   { font-size: 26px !important; }
-
-  [style*="grid-template-columns: 1fr 1fr"] {
-    grid-template-columns: 1fr !important;
-  }
-
+  [style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
   .step-label { font-size: 9px !important; }
   main { padding: 0 12px !important; }
   .hero-section { padding: 48px 16px 40px !important; }
@@ -70,9 +62,7 @@ body {
 }
 
 /* ── Page transition ── */
-.page {
-  animation: fadeUp 0.38s ease both;
-}
+.page { animation: fadeUp 0.38s ease both; }
 
 /* ── Animations ─────────────────────────────────────────── */
 @keyframes fadeUp {

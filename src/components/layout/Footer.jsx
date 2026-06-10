@@ -9,13 +9,6 @@ const LINKS = [
   { label:"Book a Class", id:"booking"  },
 ];
 
-const CONTACT_ROWS = [
-  ["📍", `${CONTACT.address}`],
-  ["📞", CONTACT.phone],
-  ["✉️", CONTACT.email],
-  ["💬", CONTACT.facebook],
-];
-
 export default function Footer({ go }) {
   const linkStyle = {
     fontSize: 13, color: "rgba(255,255,255,.45)", fontWeight: 600,
@@ -62,18 +55,51 @@ export default function Footer({ go }) {
           {/* Contact */}
           <div>
             <div style={{ fontSize:12, fontWeight:800, color:C.gold, textTransform:"uppercase", letterSpacing:".08em", marginBottom:14 }}>Contact Us</div>
-            {CONTACT_ROWS.map(([ic, tx]) => (
-              <div key={tx} style={{ display:"flex", gap:8, marginBottom:10, fontSize:13, color:"rgba(255,255,255,.45)", fontWeight:600 }}>
-                <span>{ic}</span>
-                <span style={{ whiteSpace:"pre-line" }}>{tx}</span>
-              </div>
-            ))}
+
+            {/* Address */}
+            <div style={{ display:"flex", gap:8, marginBottom:10, fontSize:13, color:"rgba(255,255,255,.45)", fontWeight:600 }}>
+              <span>📍</span>
+              <span>{CONTACT.address}</span>
+            </div>
+
+            {/* Phone */}
+            <div style={{ display:"flex", gap:8, marginBottom:10, fontSize:13, color:"rgba(255,255,255,.45)", fontWeight:600 }}>
+              <span>📞</span>
+              <a href={`tel:${CONTACT.phone}`} style={{ color:"rgba(255,255,255,.45)", textDecoration:"none" }}
+                onMouseEnter={e => (e.currentTarget.style.color = C.gold)}
+                onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,.45)")}
+              >{CONTACT.phone}</a>
+            </div>
+
+            {/* Email */}
+            <div style={{ display:"flex", gap:8, marginBottom:10, fontSize:13, color:"rgba(255,255,255,.45)", fontWeight:600 }}>
+              <span>✉️</span>
+              <a href={`mailto:${CONTACT.email}`} style={{ color:"rgba(255,255,255,.45)", textDecoration:"none" }}
+                onMouseEnter={e => (e.currentTarget.style.color = C.gold)}
+                onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,.45)")}
+              >{CONTACT.email}</a>
+            </div>
+
+            {/* Facebook — clickable link */}
+            <div style={{ display:"flex", gap:8, marginBottom:10, fontSize:13, fontWeight:600 }}>
+              <span>💬</span>
+              <a
+                href="https://www.facebook.com/triangleesl"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: C.gold, textDecoration:"none", fontWeight:700 }}
+                onMouseEnter={e => (e.currentTarget.style.textDecoration = "underline")}
+                onMouseLeave={e => (e.currentTarget.style.textDecoration = "none")}
+              >
+                facebook.com/triangleesl
+              </a>
+            </div>
           </div>
         </div>
 
         <div style={{ borderTop:"1px solid rgba(255,255,255,.1)", paddingTop:20, textAlign:"center" }}>
           <div style={{ fontSize:12, color:"rgba(255,255,255,.22)", fontWeight:600 }}>
-            © 2026 Triangle ESL · Iligan City, Philippines ·
+            © 2026 Triangle ESL · Iligan City, Philippines
           </div>
         </div>
       </div>
